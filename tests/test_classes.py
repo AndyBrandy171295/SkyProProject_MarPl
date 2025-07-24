@@ -6,6 +6,7 @@ from src.classes import Product, Category
 def product_value():
     return Product("Samsung S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
 
+
 def test_product(product_value):
     assert product_value.name == "Samsung S23 Ultra"
     assert product_value.description == "256GB, Серый цвет, 200MP камера"
@@ -13,15 +14,71 @@ def test_product(product_value):
     assert product_value.quantity == 5
 
 
+def test_price_setter():
+    product = Product("Samsung S23 Ultra", "256GB, Серый цвет, 200MP камера", 50.0, 5)
+
+    product.price = 75.0
+    assert product.price == 75.0
+
+
+def test_new_product():
+    data = {
+        "name": "Samsung S23 Ultra",
+        "description": "256GB, Серый цвет, 200MP камера",
+        "price": "200.0",
+        "quantity": "3",
+    }
+    product = Product.new_product(data)
+    assert product.name == "Samsung S23 Ultra"
+    assert product.price == 200.0
+
+    existing = [Product("Existing", "Desc", 150.0, 5)]
+    updated = Product.new_product(
+        {
+            "name": "Existing",
+            "description": "Updated",
+            "price": "180.0",
+            "quantity": "2",
+        },
+        existing,
+    )
+    assert updated.quantity == 7
+    assert updated.price == 180.0
+
+
 @pytest.fixture
 def category_value():
-    return Category("Смартфоны",
-                    "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
-                    [])
+    return Category(
+        "Смартфоны",
+        "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
+        [],
+    )
 
 
-def test_category(category_value):
-    assert category_value.name == "Смартфоны"
+def test_category_creation():
+    products = [
+        Product("Samsung S23 Ultra", "256GB, Серый цвет, 200MP камера", 100.0, 5)
+    ]
+    category = Category(
+        "Смартфоны",
+        "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
+        products,
+    )
 
-    assert category_value.description == 'Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни'
-    assert category_value.products == []
+    assert category.name == "Смартфоны"
+    assert (
+        category.description
+        == "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни"
+    )
+    assert category.product_count == 1
+    assert Category.category_count > 0
+
+
+def test_add_product():
+    category = Category(
+        "Смартфоны", "Смартфоны, как средство не только коммуникации", []
+    )
+    product = Product("Samsung S23 Ultra", "256GB, Серый цвет, 200MP камера", 50.0, 3)
+
+    category.add_product(product)
+    assert category.product_count == 1
