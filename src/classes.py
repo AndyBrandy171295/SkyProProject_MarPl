@@ -33,9 +33,7 @@ class Product:
         quantity = int(product_data["quantity"])
 
         for product in existing_products:
-            if (
-                product.name.lower() == name.lower()
-            ):  # Исправлено existing_products.name на product.name
+            if product.name.lower() == name.lower():
                 product.quantity += quantity
                 product.price = max(product.price, price)
                 print(
@@ -44,6 +42,17 @@ class Product:
                 return product
 
         return cls(name, description, price, quantity)
+
+
+    def __add__(self, other):
+        if isinstance(other, Product):
+            return (self.__price * self.quantity) + (other.price * other.quantity)
+        else:
+            raise ValueError('Разные типы объектов нельзя суммировать!')
+
+
+    def __str__(self):
+        return f'{self.name}, {self.__price} руб. Остаток: {self.quantity} шт.'
 
 
 class Category:
@@ -73,6 +82,11 @@ class Category:
     @property
     def product_count(self):
         return len(self.__products)
+
+
+    def __str__(self):
+        summ_of_products = sum(product.quantity for product in self.__products)
+        return f'{self.name}, количество продуктов: {summ_of_products} шт.'
 
 
 if __name__ == "__main__":
