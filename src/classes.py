@@ -8,19 +8,19 @@ class Product:
     def __init__(self, name, description, price, quantity):
         self.name = name
         self.description = description
-        self.__price = price
+        self._price = price
         self.quantity = quantity
         Product.product_count += 1
 
     @property
     def price(self):
-        return self.__price
+        return self._price
 
     @price.setter
     def price(self, new_price):
         if new_price <= 0:
             raise ValueError("Цена не должна быть нулевой или отрицательной")
-        self.__price = new_price
+        self._price = new_price
 
     @classmethod
     def new_product(cls, product_data: dict, existing_products: list = None):
@@ -43,50 +43,47 @@ class Product:
 
         return cls(name, description, price, quantity)
 
-
     def __add__(self, other):
         if isinstance(other, Product):
-            return (self.__price * self.quantity) + (other.price * other.quantity)
+            return (self._price * self.quantity) + (other.price * other.quantity)
         else:
-            raise ValueError('Разные типы объектов нельзя суммировать!')
-
+            raise ValueError("Разные типы объектов нельзя суммировать!")
 
     def __str__(self):
-        return f'{self.name}, {self.__price} руб. Остаток: {self.quantity} шт.'
+        return f"{self.name}, {self._price} руб. Остаток: {self.quantity} шт."
 
 
 class Category:
     name: str
     description: str
-    __products: list
+    _products: list
     category_count = 0
 
     def __init__(self, name, description, products):
         self.name = name
         self.description = description
-        self.__products = products if products else []
+        self._products = products if products else []
         Category.category_count += 1
 
     @property
     def products(self):
         products_string = ""
-        for product in self.__products:  # Исправлено: итерация по self.__products
+        for product in self._products:
             products_string += f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.\n"
         return products_string
 
-    def add_product(self, product):  # Исправлено: параметр products → product
+    def add_product(self, product):
         if not isinstance(product, Product):
             raise TypeError("Можно добавлять только объекты класса Product")
-        self.__products.append(product)
+        return self._products.append(product)
 
     @property
     def product_count(self):
-        return len(self.__products)
-
+        return len(self._products)
 
     def __str__(self):
-        summ_of_products = sum(product.quantity for product in self.__products)
-        return f'{self.name}, количество продуктов: {summ_of_products} шт.'
+        summ_of_products = sum(product.quantity for product in self._products)
+        return f"{self.name}, количество продуктов: {summ_of_products} шт."
 
 
 if __name__ == "__main__":
