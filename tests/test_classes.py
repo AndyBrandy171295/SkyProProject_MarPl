@@ -93,9 +93,11 @@ def test_add_product():
 
 
 def test_str_product():
-    product = Product("Samsung S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
+    product = Product(
+        "Samsung S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5
+    )
     result = str(product)
-    assert result == 'Samsung S23 Ultra, 180000.0 руб. Остаток: 5 шт.'
+    assert result == "Samsung S23 Ultra, 180000.0 руб. Остаток: 5 шт."
 
 
 def test_str_category():
@@ -106,7 +108,7 @@ def test_str_category():
     category = Category(
         "Смартфоны",
         "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
-        [product1])
+        [product1],
+    )
     result = str(category)
-    assert result == 'Смартфоны, количество продуктов: 5 шт.'
-
+    assert result == "Смартфоны, количество продуктов: 5 шт."
