@@ -1,11 +1,11 @@
-Каталог товаров SkyProProject
+# Каталог товаров SkyProProject
 https://img.shields.io/badge/Python-3.8+-blue?logo=python
 https://img.shields.io/badge/Poetry-1.2+-orange?logo=poetry
 https://img.shields.io/badge/Git-enabled-green?logo=git
 
 Проект для управления каталогом товаров с системой категоризации. Реализованы базовые классы для работы с продуктами и категориями, а также специализированные классы для смартфонов и газонной травы.
 
-🛠 Технологии
+## 🛠 Технологии
 Python 3.8+
 
 Poetry (управление зависимостями)
@@ -29,9 +29,9 @@ SkyProProject/
 ├── pyproject.toml
 └── README.md
 
-🧩 Основные классы
-Product - Базовый класс продукта
-python
+## 🧩 Основные классы
+* Product - Базовый класс продукта
+
 class Product:
     def __init__(self, name, description, price, quantity):
         # Инициализация продукта
@@ -59,8 +59,8 @@ class Product:
     def __str__(self):
         # Строковое представление продукта
         pass
-Category - Класс категории товаров
-python
+* Category - Класс категории товаров
+
 class Category:
     def __init__(self, name, description, products):
         # Инициализация категории
@@ -83,9 +83,10 @@ class Category:
     def __str__(self):
         # Строковое представление категории
         pass
-Специализированные классы
-Smartphone - Класс для смартфонов
-python
+## Специализированные классы
+
+* Smartphone - Класс для смартфонов
+
 class Smartphone(Product):
     def __init__(self, name, description, price, quantity, 
                  efficiency, model, memory, color):
@@ -95,8 +96,9 @@ class Smartphone(Product):
     def __add__(self, other):
         # Сложение только смартфонов
         pass
-LawnGrass - Класс для газонной травы
-python
+
+* LawnGrass - Класс для газонной травы
+
 class LawnGrass(Product):
     def __init__(self, name, description, price, quantity,
                  country, germination_period, color):
@@ -106,34 +108,57 @@ class LawnGrass(Product):
     def __add__(self, other):
         # Сложение только газонной травы
         pass
-🚀 Быстрый старт
-Клонируйте репозиторий:
 
-bash
-git clone https://github.com/ваш-username/SkyProProject.git
+## Дополнительные компоненты
+
+* PrintMixin - Миксин для логирования
+
+class PrintMixin:
+    def __init__(self):
+        """Автоматический вывод информации при создании объекта"""
+        print(repr(self))
+
+    def __repr__(self):
+        """Универсальное строковое представление объекта"""
+        return f'{self.__class__.__name__}({self.name}, {self.description}, {self.price}, {self.quantity})'
+
+* BaseProduct - Абстрактный базовый класс
+
+class BaseProduct(ABC):
+    @classmethod
+    @abstractmethod
+    def new_product(self):
+        """Абстрактный метод создания продукта"""
+        pass
+
+## 🚀 Быстрый старт
+
+* Клонируйте репозиторий:
+
+git clone https://github.com/AndyBrandy171295/SkyProProject.git
 cd SkyProProject
-Установите зависимости:
 
-bash
+* Установите зависимости:
+
 poetry install
-Запустите пример:
 
-bash
+* Запустите пример:
+
 poetry run python src/main.py
 🧪 Тестирование
-bash
+
 poetry run pytest tests/ -v
 📊 Пример работы
-python
-# Создание смартфона
+
+## Создание смартфона
 iphone = Smartphone("iPhone 15", "512GB, Space Gray", 99990.0, 10,
                     98.2, "15", 512, "Gray")
 
-# Создание газонной травы
+## Создание газонной травы
 grass = LawnGrass("Газонная трава", "Элитная трава", 500.0, 20,
                   "Россия", "7 дней", "Зеленый")
 
-# Создание категории
+## Создание категории
 electronics = Category("Электроника", "Техника для дома", [iphone])
 gardening = Category("Сад", "Товары для сада", [grass])
 
@@ -141,6 +166,7 @@ print(iphone)
 print(grass)
 print(electronics)
 print(gardening)
+
 🤝 Как внести вклад
 Форкните репозиторий
 
