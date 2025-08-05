@@ -112,3 +112,17 @@ def test_str_category():
     )
     result = str(category)
     assert result == "Смартфоны, количество продуктов: 5 шт."
+
+
+def test_product_error():
+    with pytest.raises(
+        ValueError, match="Товар с нулевым количеством не может быть добавлен!"
+    ):
+        product1 = Product(
+            "Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 0
+        )
+
+
+def test_category_error():
+    category_empty = Category("Пустая категория", "Категория без продуктов", [])
+    assert category_empty.middle_price() == 0
